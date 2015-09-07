@@ -27,7 +27,6 @@ def main():
                         dhcp_src = "#" + " ".join(scope_info) + "\n" +  "{" + "\n" + "\t" + "\"subnet\"" + ":" + " " +  "\"" + str(subnet.cidr) + "\"" + "," + "\n" + "\t" + "\"pools\"" + ":" + " " + "[" + " " + "{" + "\"pool\"" + ":" + " " +  "\"" + str(scope_range[7]) + " " + "-" + " " + str(scope_range[8]) + "\""  +  "}" + "]" + "," + "\n" + "\t" +  "\"option-data\"" + ":" + " " + "[" + "{" + "\n" + "\t" + "\"code\"" + ":" + " " + "3" + "," + "\n" + "\t" + "\"name\"" + ":" + " " + "\"routers\"" + "," + "\n" + "\t" + "\"data\"" + ":" + " " + "\"" + str(subnet[1]) + "\"" + "\n" + "\t" + "}" + "]" + "\n" +  "}" + ","
                         # print dhcp_src           
                         dhcp_dst.writelines(dhcp_src)
-    addhcp_src.close()
     dhcp_dst.close()
 
 if __name__ == '__main__':
