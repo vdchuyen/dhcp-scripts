@@ -8,9 +8,9 @@ AD = "dhcpcfg.txt"
 KEA = "kea.json"
 
 def main():
-    with open(AD, 'r') as addhcp_src:
-        dhcp_lines = addhcp_src.readlines()
-    dhcp_dst = open(KEA, 'w')
+    with open(AD, 'r') as msdhcp:
+        dhcp_lines = msdhcp.readlines()
+    keaconf = open(KEA, 'w')
     for lines in dhcp_lines:
         if 'add scope' in lines:
             vlan = lines.split(" ", 7)
@@ -26,8 +26,8 @@ def main():
                     if scope_range[4] in str(subnet):
                         dhcp_src = "#" + " ".join(scope_info) + "\n" +  "{" + "\n" + "\t" + "\"subnet\"" + ":" + " " +  "\"" + str(subnet.cidr) + "\"" + "," + "\n" + "\t" + "\"pools\"" + ":" + " " + "[" + " " + "{" + "\"pool\"" + ":" + " " +  "\"" + str(scope_range[7]) + " " + "-" + " " + str(scope_range[8]) + "\""  +  "}" + "]" + "," + "\n" + "\t" +  "\"option-data\"" + ":" + " " + "[" + "{" + "\n" + "\t" + "\"code\"" + ":" + " " + "3" + "," + "\n" + "\t" + "\"name\"" + ":" + " " + "\"routers\"" + "," + "\n" + "\t" + "\"data\"" + ":" + " " + "\"" + str(subnet[1]) + "\"" + "\n" + "\t" + "}" + "]" + "\n" +  "}" + ","
                         # print dhcp_src           
-                        dhcp_dst.writelines(dhcp_src)
-    dhcp_dst.close()
+                        keaconf.writelines(dhcp_src)
+    keaconf.close()
 
 if __name__ == '__main__':
     main()
