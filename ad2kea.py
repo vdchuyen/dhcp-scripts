@@ -16,7 +16,7 @@ def main():
             vlan = lines.split(" ", 7)
             subnet = IPNetwork(vlan[5]+ "/" + vlan[6])
             # print subnet.cidr, subnet[1]  (gw = subnet index +1 )
-            scope_info = re.findall(r'"(.*?)"', vlan[6])
+            scope_info = re.findall(r'"(.*?)"', vlan[7])
             for lines in dhcp_lines:
                 if 'reservedip' in lines:
                      host = lines.split(" ")
