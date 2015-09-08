@@ -18,9 +18,6 @@ def main():
             # print subnet.cidr, subnet[1]  (gw = subnet index +1 )
             scope_info = re.findall(r'"(.*?)"', vlan[7])
             for lines in dhcp_lines:
-                if 'reservedip' in lines:
-                     host = lines.split(" ")
-                     macaddr = ':'.join(s.encode('hex') for s in host[8].decode('hex'))
                 if 'iprange' in lines:
                     scope_range = lines.split(" ")
                     if scope_range[4] in str(subnet):
