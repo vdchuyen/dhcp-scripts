@@ -25,7 +25,7 @@ def main():
                     scope_range = lines.split(" ")
                     if scope_range[4] in str(subnet):
                         pool = ({ "subnet": str(subnet.cidr), "pools": [ { "pool": str(scope_range[7] + " " + "-" + " " + str(scope_range[8]) ) } ], "option-data": [ { "code": "3" , "name": "routers", "data": str(subnet[1]) } ]}) 
-                        keaconf.writelines(json.dumps(pool, indent=4) + ",")
+                        keaconf.writelines(json.dumps(pool, indent=4) + "," + "\n")
     keaconf.close()
 
 if __name__ == '__main__':
