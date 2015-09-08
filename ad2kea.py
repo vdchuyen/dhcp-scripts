@@ -1,6 +1,5 @@
 __author__ = 'chuyen'
 
-import csv
 from netaddr import *
 import re
 import json
