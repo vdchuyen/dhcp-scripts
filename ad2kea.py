@@ -3,10 +3,11 @@ __author__ = 'chuyen'
 import csv
 from netaddr import *
 import re
+import json
 
 AD = "dhcpcfg.txt"
 KEA = "kea.json"
-
+pool = []
 def main():
     with open(AD, 'r') as msdhcp:
         dhcp_lines = msdhcp.readlines()
@@ -24,9 +25,8 @@ def main():
                 if 'iprange' in lines:
                     scope_range = lines.split(" ")
                     if scope_range[4] in str(subnet):
-                        dhcp_src = "#" + " ".join(scope_info) + "\n" +  "{" + "\n" + "\t" + "\"subnet\"" + ":" + " " +  "\"" + str(subnet.cidr) + "\"" + "," + "\n" + "\t" + "\"pools\"" + ":" + " " + "[" + " " + "{" + "\"pool\"" + ":" + " " +  "\"" + str(scope_range[7]) + " " + "-" + " " + str(scope_range[8]) + "\""  +  "}" + "]" + "," + "\n" + "\t" +  "\"option-data\"" + ":" + " " + "[" + "{" + "\n" + "\t" + "\"code\"" + ":" + " " + "3" + "," + "\n" + "\t" + "\"name\"" + ":" + " " + "\"routers\"" + "," + "\n" + "\t" + "\"data\"" + ":" + " " + "\"" + str(subnet[1]) + "\"" + "\n" + "\t" + "}" + "]" + "\n" +  "}" + ","
-                        # print dhcp_src           
-                        keaconf.writelines(dhcp_src)
+                        pool = ({ "subnet": str(subnet.cidr), "pools": [ { "pool": str(scope_range[7] + " " + "-" + " " + str(scope_range[8]) ) } ], "option-data": [ { "code": "3" , "name": "routers", "data": str(subnet[1]) } ]}) 
+                        keaconf.writelines(json.dumps(pool, indent=4) + ",")
     keaconf.close()
 
 if __name__ == '__main__':
